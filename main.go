@@ -27,8 +27,11 @@ var client *mongo.Client
 var collection *mongo.Collection
 
 func main() {
-	// MongoDB connection string
-	connectionString := "mongodb://username:password@localhost:27017"
+	// Read the MongoDB connection string from an environment variable
+    connectionString := os.Getenv("MONGO_DB_CONNECTION_STRING")
+    if connectionString == "" {
+        log.Fatal("MONGO_DB_CONNECTION_STRING environment variable is not set.")
+    }
 
 	// Initialize MongoDB client
 	clientOptions := options.Client().ApplyURI(connectionString)
