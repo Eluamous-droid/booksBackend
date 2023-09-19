@@ -1,26 +1,26 @@
-package bookapp/gobackend
+package main
 
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
-	"strconv"
+	"os"
 	"time"
 
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // Book structure
 type Book struct {
-	ID     primitive.ObjectID `bson:"_id,omitempty"`
-	Title  string             `bson:"title"`
-	Author string             `bson:"author"`
-	PageCount int 			  `bson:"PageCount"`
+	ID        primitive.ObjectID `bson:"_id,omitempty"`
+	Title     string             `bson:"title"`
+	Author    string             `bson:"author"`
+	PageCount int                `bson:"pageCount"`
 }
 
 var client *mongo.Client
@@ -28,10 +28,10 @@ var collection *mongo.Collection
 
 func main() {
 	// Read the MongoDB connection string from an environment variable
-    connectionString := os.Getenv("MONGO_DB_CONNECTION_STRING")
-    if connectionString == "" {
-        log.Fatal("MONGO_DB_CONNECTION_STRING environment variable is not set.")
-    }
+	connectionString := os.Getenv("MONGO_DB_CONNECTION_STRING")
+	if connectionString == "" {
+		log.Fatal("MONGO_DB_CONNECTION_STRING environment variable is not set.")
+	}
 
 	// Initialize MongoDB client
 	clientOptions := options.Client().ApplyURI(connectionString)

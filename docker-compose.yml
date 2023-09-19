@@ -1,5 +1,8 @@
 version: '3.1'
 
+volumes:
+  mongoData:
+
 services:
 
   mongo:
@@ -8,6 +11,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongoData:/data/db
 
   mongo-express:
     image: mongo-express
@@ -25,4 +30,4 @@ services:
     ports:
       - 8080:8080
     environment:
-      - MONGO_DB_CONNECTION_STRING: "mongodb://root:example@mongo:27017"
+      MONGO_DB_CONNECTION_STRING: mongodb://root:example@mongo:27017
